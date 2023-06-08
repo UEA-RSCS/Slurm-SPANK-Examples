@@ -1,4 +1,4 @@
-// gcc -fPIC -shared -o wrapper.so wrapper.c -ldl
+// gcc -fPIC -shared -o preloader.so preloader.c -ldl
 #define _GNU_SOURCE
 #include <dlfcn.h>
 #include <stdio.h>
