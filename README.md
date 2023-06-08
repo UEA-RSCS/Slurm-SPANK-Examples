@@ -19,8 +19,7 @@ Note: Alternatively, you can create a plugstack.conf.d directory and point to it
 Rather than using the 'optional' argument you can specify 'required'. I tend to use 'optional' when developing a plugin, as the 'required' argument will place the node into a drain state should a function within the plugin fail - while this sounds bad it can be helpful if you are using the SPANK plugin to perform node checks.
 
 Examples in src/plugins include ...
-demo.c        - Basic plugin that reads job environment variables and prints them to Slurmd's log.
-
+demo.c        - Basic plugin that reads job environment variables and prints them to Slurmd's log.  
 entrypoints.c - Trace each entrypoint.
 
 envs.c        - Similar to demo.c but also prints out the job name.
