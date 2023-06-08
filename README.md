@@ -20,10 +20,15 @@ Rather than using the 'optional' argument you can specify 'required'. I tend to 
 
 Examples in src/plugins include ...
 demo.c        - Basic plugin that reads job environment variables and prints them to Slurmd's log.
+
 entrypoints.c - Trace each entrypoint.
+
 envs.c        - Similar to demo.c but also prints out the job name.
+
 execute.c     - Execute a command within the same control group as the job step, and terminate the command when the job step ends.
+
 options.c     - Register and parse two options (opt1 and opt2). Argument opt1 is set as environment variable. Argument opt2 is compared against a global runtime argument, see corresponding plugstack.conf.d/options.conf.
+
 preload.c     - Set LD_PRELOAD for job. Expects preloader.so to be in /tmp, see src/preload/preloader.c for the source.
 
 ## License
