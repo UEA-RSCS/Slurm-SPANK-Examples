@@ -50,9 +50,11 @@ int slurm_spank_init(spank_t sp, int ac, char **av) {
 }
 
 int slurm_spank_user_init(spank_t sp, int ac, char **av) {
-  spank_err_t err = spank_setenv(sp, "SLURM_MYOPT", opt1_value, 1);
-	if (err != ESPANK_SUCCESS)
-		slurm_error("%s %s: %s", PLUGIN_NAME, __func__, spank_strerror(err));
+  if (opt1_value) {
+    spank_err_t err = spank_setenv(sp, "SLURM_MYOPT", opt1_value, 1);
+    if (err != ESPANK_SUCCESS)
+      slurm_error("%s %s: %s", PLUGIN_NAME, __func__, spank_strerror(err));
+  }
 
   for (int i = 0; i < ac; i++) {
     if (strncmp ("min_opt2=", av[i], 9) == 0) {
