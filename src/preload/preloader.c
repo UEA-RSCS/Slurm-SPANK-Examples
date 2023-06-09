@@ -1,4 +1,11 @@
+//
+// Purpose:
+// Very simple preloader that runs a prolog and epilog and intercepts certain file based 
+// system calls
+//
+// Compile Instructions:
 // gcc -fPIC -shared -o preloader.so preloader.c -ldl
+//
 #define _GNU_SOURCE
 #include <dlfcn.h>
 #include <stdio.h>
