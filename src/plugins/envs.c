@@ -1,8 +1,15 @@
+//
+// Purpose:
+// Basic plugin that reads job environment variables and prints them to Slurmd's log
+//
+// Compile Instructions:
 // gcc -fPIC -shared -o envs.so envs.c
+//
 #include <stdlib.h>
 #include <string.h>
 #include <slurm/spank.h>
 
+// define the plugin name - we'll use this to refer to
 #ifndef PLUGIN_NAME
   #define PLUGIN_NAME "envs"
 #endif
@@ -16,6 +23,7 @@ int slurm_spank_init(spank_t sp, int ac, char **av) {
   char **env;
   if (spank_get_item(sp, S_JOB_ENV, &env) == ESPANK_SUCCESS) {
     while (*env != NULL) {
+      // look for SLURM_JOB_NAME - if we find it squirrel it off and print it out
       if (strncmp(*env, "SLURM_JOB_NAME", 14) == 0) {
         char *s_job_name_env;
         char *s_job_name;
