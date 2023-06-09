@@ -37,8 +37,10 @@ int slurm_spank_task_init(spank_t sp, int ac, char **av) {
     slurm_error("%s %s: Fork failure", PLUGIN_NAME, __func__);
     return(-1);
   } else if (pid > 0) {
-    // successfully forked, let store the child pid for later and leave
+    // successfully forked, let store the child pid for later
     slurm_info("%s %s: Forked process %d", PLUGIN_NAME, __func__, pid);
+    // don't wait / ignore the child process should it exit (avoids defunct processes)
+    signal(SIGCHLD, SIG_IGN);
     return 0;
   }
 
@@ -49,14 +51,13 @@ int slurm_spank_task_init(spank_t sp, int ac, char **av) {
   close(STDOUT_FILENO);
   close(STDERR_FILENO);
 
-  // create a process group for itself - this could be helpful if the new process spawns children
-  // as you should be able to just kill off the process group - though in this example I'm only 
-  // gathering the pid of the fork'd process and not the process group - guh! say one thing and do 
-  // another!
-  setpgid(0, 0);
+  // create a session and process group for itself - this could be helpful if the new process 
+  // spawns children as you can just kill off the process group
+  if (setsid() == -1)
+    slurm_error("%s %s: Unable to setsid", PLUGIN_NAME, __func__);
 
   // execute the command passing the arguments
-  if ((execv("/usr/bin/sleep", args)) == -1)
+  if (execv("/usr/bin/sleep", args) == -1)
     slurm_error("%s %s: Unable to exec", PLUGIN_NAME, __func__);
 
   return(0);
@@ -64,8 +65,9 @@ int slurm_spank_task_init(spank_t sp, int ac, char **av) {
 
 // called as the task exits
 int slurm_spank_task_exit(spank_t sp, int ac, char **av) {
-  // kill our command - this also allows for the cgroup can be torned down successfully
-  kill(pid, SIGTERM);
+  // kill our command via the process group
+  // this also allows for the cgroup can be torned down successfully
+  killpg(pid, SIGTERM);
 
   return(0);
 }
