@@ -1,6 +1,7 @@
 //
 // Purpose:
 // Basic plugin that reads job environment variables and prints them to Slurmd's log
+// Also prints out the job name
 //
 // Compile Instructions:
 // gcc -fPIC -shared -o envs.so envs.c
