@@ -1,4 +1,10 @@
+//
+// Purpose:
+// Basic plugin that reads job environment variables and prints them to Slurmd's log
+//
+// Compile Instructions:
 // gcc -fPIC -shared -o demo.so demo.c
+//
 #include <stdlib.h>
 #include <string.h>
 #include <slurm/spank.h>
